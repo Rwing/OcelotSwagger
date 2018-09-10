@@ -1,0 +1,32 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/mock/swagger.json",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/up/swagger.json",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/pet/{everything}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/api/pet/{everything}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    }
+  ],
+
+  "GlobalConfiguration": {
+    "RequestIdKey": "ot-traceid"
+  }
+}

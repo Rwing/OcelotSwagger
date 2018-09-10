@@ -1,0 +1,623 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "EAS API"
+  },
+  "paths": {
+    "/eas/Company/Create": {
+      "post": {
+        "tags": [ "Company" ],
+        "operationId": "ApiCompanyCreatePost",
+        "consumes": [ "application/json-patch+json", "application/json", "text/json", "application/*+json" ],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": false,
+            "schema": { "$ref": "#/definitions/CompanyCreateInput" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "/eas/Company": {
+      "get": {
+        "tags": [ "Company" ],
+        "summary": "获取公司详情",
+        "operationId": "ApiCompanyGet",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "description": "公司cmp id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "departmentId",
+            "in": "query",
+            "description": "公司登陆点id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/Company" }
+          }
+        }
+      }
+    },
+    "/eas/Consume": {
+      "post": {
+        "tags": [ "Consume" ],
+        "summary": "消费点数",
+        "operationId": "ApiConsumePost",
+        "consumes": [ "application/json-patch+json", "application/json", "text/json", "application/*+json" ],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "consumePostParams",
+            "in": "body",
+            "description": "",
+            "required": false,
+            "schema": { "$ref": "#/definitions/ConsumePostParams" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/AppConsumeLog" }
+          }
+        }
+      }
+    },
+    "/eas/openapi/Examinee/SubmitAnswer": {
+      "post": {
+        "tags": [ "Examinee" ],
+        "summary": "",
+        "operationId": "ApiOpenapiExamineeSubmitAnswerPost",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "CompanyId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "PersonId",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "PaperId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Name",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Email",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "JobId",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "JobName",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Answers",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Extend",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "AppId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Signature",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Product has missing/invalid values",
+            "schema": { "type": "string" }
+          },
+          "404": {
+            "description": "test",
+            "schema": { "type": "string" }
+          }
+        }
+      }
+    },
+    "/eas/openapi/Examinee/SubmitAnswers": {
+      "post": {
+        "tags": [ "Examinee" ],
+        "operationId": "ApiOpenapiExamineeSubmitAnswersPost",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "CompanyId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "PaperId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "JobId",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "JobName",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Persons",
+            "in": "formData",
+            "required": false,
+            "type": "array",
+            "items": {},
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "PersonsJson",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "AppId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Signature",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "type": "string" }
+          }
+        }
+      }
+    },
+    "/eas/Health": {
+      "get": {
+        "tags": [ "Health" ],
+        "summary": "健康检查",
+        "operationId": "ApiHealthGet",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "type": "string" }
+          }
+        }
+      }
+    },
+    "/eas/openapi/Health": {
+      "get": {
+        "tags": [ "Health" ],
+        "summary": "健康检查",
+        "operationId": "ApiOpenapiHealthGet",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "type": "string" }
+          }
+        }
+      }
+    },
+    "/eas/openapi/OfflineMachine/Save": {
+      "post": {
+        "tags": [ "OfflineMachine" ],
+        "operationId": "ApiOpenapiOfflineMachineSavePost",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "MachineId",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "MachineName",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "MachineCenterName",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ExecutorName",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ComputerCount",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "MachineCheckItemConfig",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "AppId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Signature",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "type": "string" }
+          }
+        }
+      }
+    },
+    "/eas/openapi/Project/GenerateTeamReport": {
+      "post": {
+        "tags": [ "Project" ],
+        "operationId": "ApiOpenapiProjectGenerateTeamReportPost",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "CompanyId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "JobId",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "PaperId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "AppId",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Signature",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "type": "string" }
+          }
+        }
+      }
+    },
+    "/eas/SalesPaper/{id}": {
+      "get": {
+        "tags": [ "SalesPaper" ],
+        "summary": "获取试卷所需点数及是否包年",
+        "operationId": "ApiSalesPaperByIdGet",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "description": "公司cmp id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "departmentId",
+            "in": "query",
+            "description": "公司登陆点id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": { "$ref": "#/definitions/GetSalesPaperResult" }
+          }
+        }
+      }
+    },
+    "/eas/SalesPaper": {
+      "get": {
+        "tags": [ "SalesPaper" ],
+        "summary": "获取试卷所需点数",
+        "operationId": "ApiSalesPaperGet",
+        "consumes": [],
+        "produces": [ "text/plain", "application/json", "text/json" ],
+        "parameters": [
+          {
+            "name": "paperIds",
+            "in": "query",
+            "description": "试卷id列表，逗号间隔",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "description": "公司cmp id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "departmentId",
+            "in": "query",
+            "description": "公司登陆点id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CompanyCreateInput": {
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "companyId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "departmentId": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "Company": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "companyName": { "type": "string" },
+        "totalPoint": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "freezedPoint": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "partnerCompanyId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "companyAccount": { "type": "string" },
+        "partnerID": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "registerTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "isParentCompany": { "type": "boolean" },
+        "isRepairInfo": { "type": "boolean" },
+        "parentCompanyID": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ConsumePostParams": {
+      "type": "object",
+      "properties": {
+        "appId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "appUniqueId": {
+          "description": "应用方的代表此次交易的唯一ID",
+          "type": "string"
+        },
+        "companyId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "departmentId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "quantity": {
+          "format": "int32",
+          "description": "数量",
+          "type": "integer"
+        },
+        "salesPaperId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "AppConsumeLog": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "appId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "companyId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "unitPoint": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "quantity": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalPoint": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "salesPaperId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "createDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "appUniqueId": { "type": "string" }
+      }
+    },
+    "ExamineeSubmitAnswerPerson": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "answers": { "type": "string" },
+        "extend": { "type": "string" }
+      }
+    },
+    "GetSalesPaperResult": {
+      "type": "object",
+      "properties": {
+        "costPoint": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "isYearPackage": { "type": "boolean" }
+      }
+    }
+  }
+}
