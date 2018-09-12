@@ -1,5 +1,7 @@
 # OcelotSwagger
 
+[![NuGet][main-nuget-badge]][main-nuget]
+
 [main-nuget]: https://www.nuget.org/packages/OcelotSwagger/
 [main-nuget-badge]: https://img.shields.io/nuget/v/OcelotSwagger.svg?style=flat-square&label=nuget
 
