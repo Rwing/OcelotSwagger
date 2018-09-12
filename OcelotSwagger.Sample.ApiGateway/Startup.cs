@@ -34,7 +34,7 @@ namespace OcelotSwagger.Sample.ApiGateway
 
             app.UseOcelotSwagger(c =>
             {
-                c.SwaggerEndPoints.Add(new SwaggerEndPoint { Name = "EASAPI", Url = "/up/swagger.json" });
+                c.SwaggerEndPoints.Add(new SwaggerEndPoint { Name = "PET API", Url = "/up/swagger.json" });
             });
 
             app.UseOcelot().Wait();
