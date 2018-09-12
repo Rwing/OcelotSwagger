@@ -28,4 +28,4 @@ app.UseOcelotSwagger(c =>
 ```
 
 ## TODO
-* [x] Cache
+* [ ] Cache
