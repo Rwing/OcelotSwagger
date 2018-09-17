@@ -45,7 +45,7 @@ namespace OcelotSwagger
                     {
                         foreach (var downstreamReRoute in ocelotConfigReRoute.DownstreamReRoute)
                         {
-                            var newDownstreamPathTemplate = PathTemplateRegex.Replace(downstreamReRoute.DownstreamDownstreamPathTemplate.Value, "");
+                            var newDownstreamPathTemplate = PathTemplateRegex.Replace(downstreamReRoute.DownstreamPathTemplate.Value, "");
                             var newUpstreamPathTemplate = PathTemplateRegex.Replace(downstreamReRoute.UpstreamPathTemplate.OriginalValue, "");
                             newContent = newContent.Replace(newDownstreamPathTemplate, newUpstreamPathTemplate);
                         }
