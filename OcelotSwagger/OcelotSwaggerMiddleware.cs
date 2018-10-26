@@ -3,6 +3,7 @@ using Ocelot.Configuration.Repository;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -62,7 +63,7 @@ namespace OcelotSwagger
                             newContent = newContent.Replace(newDownstreamPathTemplate, newUpstreamPathTemplate);
                         }
 
-                        httpContext.Response.ContentLength = newContent.Length;
+                        httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(newContent);
                         await httpContext.Response.WriteAsync(newContent);
                     }
                 }
