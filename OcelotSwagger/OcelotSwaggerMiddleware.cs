@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Ocelot.Configuration.Repository;
+using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -26,33 +28,43 @@ namespace OcelotSwagger
             var path = httpContext.Request.Path.Value;
             if (_config.SwaggerEndPoints.Exists(i => i.Url == path))
             {
-                var existingBody = httpContext.Response.Body;
-                using (var newBody = new MemoryStream())
+                var ocelotConfig = _internalConfiguration.Get().Data;
+                var matchedReRoute = (from i in ocelotConfig.ReRoutes
+                                      from j in i.DownstreamReRoute
+                                      where j.UpstreamPathTemplate.OriginalValue.Equals(path, StringComparison.OrdinalIgnoreCase)
+                                      select j).ToList();
+                if (matchedReRoute.Count > 0)
                 {
-                    // We set the response body to our stream so we can read after the chain of middlewares have been called.
-                    httpContext.Response.Body = newBody;
+                    var matchedHost = matchedReRoute.First().DownstreamAddresses.First().Host;
+                    var anotherReRoutes = (from i in ocelotConfig.ReRoutes
+                                           from j in i.DownstreamReRoute
+                                           where j.DownstreamAddresses.Exists(k => k.Host == matchedHost)
+                                           select j).ToList();
 
-                    await _next(httpContext);
-
-                    // Reset the body so nothing from the latter middlewares goes to the output.
-                    httpContext.Response.Body = existingBody;
-
-                    newBody.Seek(0, SeekOrigin.Begin);
-                    var newContent = await new StreamReader(newBody).ReadToEndAsync();
-
-                    var ocelotConfig = _internalConfiguration.Get().Data;
-                    foreach (var ocelotConfigReRoute in ocelotConfig.ReRoutes)
+                    var existingBody = httpContext.Response.Body;
+                    using (var newBody = new MemoryStream())
                     {
-                        foreach (var downstreamReRoute in ocelotConfigReRoute.DownstreamReRoute)
+                        // We set the response body to our stream so we can read after the chain of middlewares have been called.
+                        httpContext.Response.Body = newBody;
+
+                        await _next(httpContext);
+
+                        // Reset the body so nothing from the latter middlewares goes to the output.
+                        httpContext.Response.Body = existingBody;
+
+                        newBody.Seek(0, SeekOrigin.Begin);
+                        var newContent = await new StreamReader(newBody).ReadToEndAsync();
+
+                        foreach (var downstreamReRoute in anotherReRoutes)
                         {
                             var newDownstreamPathTemplate = PathTemplateRegex.Replace(downstreamReRoute.DownstreamPathTemplate.Value, "");
                             var newUpstreamPathTemplate = PathTemplateRegex.Replace(downstreamReRoute.UpstreamPathTemplate.OriginalValue, "");
                             newContent = newContent.Replace(newDownstreamPathTemplate, newUpstreamPathTemplate);
                         }
-                    }
 
-                    httpContext.Response.ContentLength = newContent.Length;
-                    await httpContext.Response.WriteAsync(newContent);
+                        httpContext.Response.ContentLength = newContent.Length;
+                        await httpContext.Response.WriteAsync(newContent);
+                    }
                 }
             }
             else
