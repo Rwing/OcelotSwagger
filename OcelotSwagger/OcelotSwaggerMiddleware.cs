@@ -36,10 +36,10 @@ namespace OcelotSwagger
                                       select j).ToList();
                 if (matchedReRoute.Count > 0)
                 {
-                    var matchedHost = matchedReRoute.First().DownstreamAddresses.First().Host;
+                    var matchedHost = matchedReRoute.First().DownstreamAddresses.First();
                     var anotherReRoutes = (from i in ocelotConfig.ReRoutes
                                            from j in i.DownstreamReRoute
-                                           where j.DownstreamAddresses.Exists(k => k.Host == matchedHost)
+                                           where j.DownstreamAddresses.Exists(k => k.Host == matchedHost.Host && k.Port == matchedHost.Port)
                                            select j).ToList();
 
                     var existingBody = httpContext.Response.Body;
