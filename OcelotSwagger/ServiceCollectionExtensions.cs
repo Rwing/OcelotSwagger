@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Swashbuckle.AspNetCore.Swagger;
-
-namespace Microsoft.Extensions.DependencyInjection
+﻿namespace Microsoft.Extensions.DependencyInjection
 {
-	public static class MvcServiceCollectionExtensions
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
+
+    using OcelotSwagger;
+
+    public static class MvcServiceCollectionExtensions
 	{
 		public static IServiceCollection AddOcelotSwagger(this IServiceCollection services)
 		{
+            services.TryAddSingleton<IDistributedCache, NullDistributedCache>();
 			services.AddSwaggerGen();
 			return services;
 		}
