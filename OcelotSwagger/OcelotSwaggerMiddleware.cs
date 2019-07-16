@@ -13,6 +13,7 @@
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Options;
 
     using Newtonsoft.Json;
 
@@ -28,7 +29,7 @@
 
         private readonly IDistributedCache _cache;
 
-        private readonly OcelotSwaggerConfig _config;
+        private readonly OcelotSwaggerOptions _options;
 
         private readonly IInternalConfigurationRepository _internalConfiguration;
 
@@ -38,12 +39,12 @@
 
         public OcelotSwaggerMiddleware(
             RequestDelegate next,
-            OcelotSwaggerConfig config,
+            IOptionsMonitor<OcelotSwaggerOptions> optionsAccessor,
             IInternalConfigurationRepository internalConfiguration,
             IDistributedCache cache)
         {
             this._next = next;
-            this._config = config;
+            this._options = optionsAccessor.CurrentValue;
             this._internalConfiguration = internalConfiguration;
             this._cache = cache;
         }
@@ -55,9 +56,9 @@
             string cacheEntry = null;
             string cacheKey = null;
 
-            if (this._config.Cache?.Enabled == true)
+            if (this._options.Cache?.Enabled == true)
             {
-                cacheKey = this._config.Cache.KeyPrefix + WebUtility.UrlEncode(path);
+                cacheKey = this._options.Cache.KeyPrefix + WebUtility.UrlEncode(path);
                 cacheEntry = await this._cache.GetStringAsync(cacheKey);
             }
 
@@ -78,7 +79,7 @@
                         template.UpstreamPathTemplate));
                 await this.WriteContentAsync(httpContext, newContent);
             }
-            else if (this._config.SwaggerEndPoints.Exists(i => i.Url == path))
+            else if (this._options.SwaggerEndPoints.Exists(i => i.Url == path))
             {
                 var ocelotConfig = this._internalConfiguration.Get().Data;
                 var matchedReRoute = (from i in ocelotConfig.ReRoutes
@@ -96,7 +97,7 @@
                                                k => k.Host == matchedHost.Host && k.Port == matchedHost.Port)
                                            select j).ToList();
 
-                    var templates = this._config.Cache?.Enabled == true
+                    var templates = this._options.Cache?.Enabled == true
                                         ? new List<CachedPathTemplate>(anotherReRoutes.Count)
                                         : null;
 
@@ -114,7 +115,7 @@
                         newContent = newContent.Replace(newDownstreamPathTemplate, newUpstreamPathTemplate);
                     }
 
-                    if (this._config.Cache?.Enabled == true)
+                    if (this._options.Cache?.Enabled == true)
                     {
                         await Task.WhenAll(
                             this._cache.SetStringAsync(
@@ -123,7 +124,7 @@
                                 new DistributedCacheEntryOptions
                                 {
                                     SlidingExpiration = TimeSpan.FromSeconds(
-                                            this._config.Cache.SlidingExpirationInSeconds)
+                                            this._options.Cache.SlidingExpirationInSeconds)
                                 }),
                             this.WriteContentAsync(httpContext, newContent));
                     }

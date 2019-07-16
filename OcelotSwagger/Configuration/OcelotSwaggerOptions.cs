@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class OcelotSwaggerConfig
+    public class OcelotSwaggerOptions
     {
         public OcelotSwaggerCacheOptions Cache { get; set; } = new OcelotSwaggerCacheOptions();
 
