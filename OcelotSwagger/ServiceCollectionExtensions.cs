@@ -1,17 +1,14 @@
-﻿namespace Microsoft.Extensions.DependencyInjection
+﻿namespace OcelotSwagger
 {
-    using Microsoft.Extensions.Caching.Distributed;
-    using Microsoft.Extensions.DependencyInjection.Extensions;
-
-    using OcelotSwagger;
+    using Microsoft.Extensions.DependencyInjection;
 
     public static class MvcServiceCollectionExtensions
-	{
-		public static IServiceCollection AddOcelotSwagger(this IServiceCollection services)
-		{
-            services.TryAddSingleton<IDistributedCache, NullDistributedCache>();
-			services.AddSwaggerGen();
-			return services;
-		}
-	}
+    {
+        public static IServiceCollection AddOcelotSwagger(this IServiceCollection services)
+        {
+            services.AddDistributedMemoryCache();
+            services.AddSwaggerGen();
+            return services;
+        }
+    }
 }
