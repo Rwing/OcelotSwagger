@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OcelotSwagger;
-
-namespace Microsoft.AspNetCore.Builder
+﻿namespace OcelotSwagger
 {
-	public static class BuilderExtensions
+    using System;
+
+    using Microsoft.AspNetCore.Builder;
+
+    using OcelotSwagger.Configuration;
+
+    public static class BuilderExtensions
 	{
 		public static IApplicationBuilder UseOcelotSwagger(this IApplicationBuilder app, Action<OcelotSwaggerConfig> configAction)
 		{

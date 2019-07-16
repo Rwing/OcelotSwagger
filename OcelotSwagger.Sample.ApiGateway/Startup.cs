@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +7,8 @@ using Ocelot.Middleware;
 
 namespace OcelotSwagger.Sample.ApiGateway
 {
+    using OcelotSwagger.Configuration;
+
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -33,9 +31,10 @@ namespace OcelotSwagger.Sample.ApiGateway
             app.UseMvc();
 
             app.UseOcelotSwagger(c =>
-            {
-                c.SwaggerEndPoints.Add(new SwaggerEndPoint { Name = "PET API", Url = "/up/swagger.json" });
-            });
+                {
+                    c.Cache.Enabled = true;
+                    c.SwaggerEndPoints.Add(new SwaggerEndPoint { Name = "PET API", Url = "/up/swagger.json" });
+                });
 
             app.UseOcelot().Wait();
 
