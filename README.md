@@ -17,17 +17,24 @@ Install-Package OcelotSwagger
 
 In method `ConfigureServices`
 ```csharp
+// Load options from code
+services.AddOcelotSwagger(c =>
+{
+    c.Cache.Enabled = true;
+    c.SwaggerEndPoints.Add(new SwaggerEndPoint { Name = "Api Name", Url = "/path/swagger.json" });
+});
+```
+Or
+```csharp
+// Load options from appsettings.json
+services.Configure<OcelotSwaggerOptions>(this.configuration.GetSection(nameof(OcelotSwaggerOptions)));
 services.AddOcelotSwagger();
-
 ```
 
 In method `Configure`
 ```csharp
-app.UseOcelotSwagger(c =>
-{
-    c.SwaggerEndPoints.Add(new SwaggerEndPoint { Name = "Api Name", Url = "/path/swagger.json" });
-});
+app.UseOcelotSwagger();
 ```
 
 ## TODO
-* [ ] Cache
+* [x] Cache
